@@ -9,6 +9,6 @@ export default makeStyles((theme: any) => ({
     flex: 1,
   },
   toolbarMargin: {
-    marginBottom: '3.5rem',
+    marginBottom: '3.2rem',
   },
 }));

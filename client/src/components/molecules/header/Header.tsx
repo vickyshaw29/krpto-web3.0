@@ -29,7 +29,7 @@ const Header = () => {
 
   return (
     <Fragment>
-      <AppBar position="fixed" className={classes.appbar}>
+      <AppBar position="fixed" className={classes.appbar} elevation={0}>
         <Container maxWidth="xl">
           <Toolbar disableGutters style={{ minHeight: 52.5 }}>
             {matches ? (
