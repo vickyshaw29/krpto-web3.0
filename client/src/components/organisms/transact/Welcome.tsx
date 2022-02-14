@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Grid, Typography } from '@mui/material';
 import { MainButton } from '../../atoms';
 import styles from '../orgStyles/styles';
@@ -8,11 +8,14 @@ import { AiFillPlayCircle } from 'react-icons/ai';
 import { SiEthereum } from 'react-icons/si';
 import { BsInfoCircle } from 'react-icons/bs';
 import { Input } from '../../atoms';
-
+import { TransactionsContext } from '../../../context/TransactionContext';
 const Welcome = () => {
   const classes = styles();
   const theme = useTheme();
+  let { connect, connectedAccount, formData, onChange, sendTransaction } =
+    useContext(TransactionsContext);
   const matches = useMediaQuery(theme.breakpoints.down('md'));
+
   return (
     <Grid
       container
@@ -34,15 +37,17 @@ const Welcome = () => {
           </div>
         </Typography>
         <Typography align={matches ? 'center' : undefined}>
-          <MainButton
-            color="primary"
-            buttonName="Connect Wallet"
-            variant="contained"
-            disabled={false}
-            className="btnsmall"
-            style={{ width: !matches ? '100%' : '60%' }}
-            // onClick={Reset}
-          />
+          {!connectedAccount.length && (
+            <MainButton
+              color="primary"
+              buttonName="Connect Wallet"
+              variant="contained"
+              disabled={false}
+              className="btnsmall"
+              style={{ width: !matches ? '100%' : '60%' }}
+              onClick={connect}
+            />
+          )}
         </Typography>
       </Grid>
       <Grid item xs={!matches ? 3 : 8}>
@@ -68,16 +73,46 @@ const Welcome = () => {
             </Grid>
           </Grid>
           <div style={{ padding: 10 }}>
-            <p>xo8787......he3jhj</p>
+            <p>
+              {connectedAccount.length &&
+                `${connectedAccount
+                  .split('')
+                  .slice(0, 8)
+                  .join('')}.....${connectedAccount
+                  .split('')
+                  .slice(-4)
+                  .join('')}`}
+            </p>
             <p>Ethereum</p>
           </div>
         </div>
         <Grid container className={classes.formContainer}>
           <Grid item xs={12} style={{ padding: 16 }}>
-            <Input placeholder="Address To" />
-            <Input placeholder="Amount(ETH)" />
-            <Input placeholder="Keyword(Gif)" />
-            <Input placeholder="Enter Message" style={{marginBottom:10}}/>
+            <Input
+              placeholder="Address To"
+              name="addressTo"
+              value={formData.addressTo}
+              onChange={onChange}
+            />
+            <Input
+              placeholder="Amount(ETH)"
+              name="amount"
+              value={formData.amount}
+              onChange={onChange}
+            />
+            <Input
+              placeholder="Keyword(Gif)"
+              name="keyword"
+              value={formData.keyword}
+              onChange={onChange}
+            />
+            <Input
+              placeholder="Enter Message"
+              style={{ marginBottom: 10 }}
+              name="message"
+              value={formData.message}
+              onChange={onChange}
+            />
             <MainButton
               color="primary"
               buttonName="Send Now"
@@ -85,7 +120,7 @@ const Welcome = () => {
               disabled={false}
               className="btnsmall"
               style={{ width: !matches ? '100%' : '60%' }}
-              // onClick={Reset}
+              onClick={sendTransaction}
             />
           </Grid>
         </Grid>
