@@ -7,12 +7,12 @@ export default makeStyles((theme: any) => ({
       radial-gradient(at 50% 0%, hsla(225,39%,30%,1) 0, transparent 50%),
       radial-gradient(at 100% 0%, hsla(339,49%,30%,1) 0, transparent 50%);
 `,
-    minHeight: '44vh',
+    minHeight: '70vh',
     color: '#fff',
     paddingTop: '1rem',
-    [theme.breakpoints.down('sm')]:{
-        minHeight:'50vh'
-    }
+    [theme.breakpoints.down('sm')]: {
+      minHeight: '80vh',
+    },
   },
   title: {
     fontSize: '2.4rem !important',
@@ -35,10 +35,11 @@ export default makeStyles((theme: any) => ({
   },
   ethDiv: {
     marginTop: '20px',
+    marginBottom: '1rem',
     backgroundColor: '#a099ff',
     minWidth: '10rem',
     minHeight: '10rem',
-    borderRadius:10,
+    borderRadius: 10,
     backgroundImage: `
                    radial-gradient(at 83% 67%, rgb(152, 231, 156) 0, transparent 58%), 
                    radial-gradient(at 67% 20%, hsla(357,94%,71%,1) 0, transparent 59%), 
@@ -49,7 +50,8 @@ export default makeStyles((theme: any) => ({
                    radial-gradient(at 53% 75%, hsla(174,94%,68%,1) 0, transparent 45%);
             `,
   },
-//   [theme.breakpoints.down("sm")]:{
-//     minWidth: '15rem',
-//   }
+  formContainer: {
+      backgroundColor:'#292d4c',
+      borderRadius:12
+  },
 }));
