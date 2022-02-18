@@ -1,7 +1,14 @@
-import React from 'react';
+import React ,{useContext} from 'react';
+import {Grid} from '@mui/material'
+import { TransactionsContext } from '../../../context/TransactionContext';
+import dummyData from '../../../utils/dummyData'
 
 const Transactions = () => {
-  return <div>Hello from Transaction</div>;
+  return (
+    <Grid container>
+
+    </Grid>
+  )
 };
 
 export default Transactions;
