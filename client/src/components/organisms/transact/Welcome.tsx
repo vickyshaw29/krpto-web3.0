@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ButtonGroup, Grid, Typography } from '@mui/material';
+import { ButtonGroup, Grid, Typography, Box } from '@mui/material';
 import styles from '../orgStyles/styles';
 import { useMediaQuery } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
@@ -9,13 +9,20 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { Input } from '../../atoms';
 import { TransactionsContext } from '../../../context/TransactionContext';
 import { MainButton } from '../../atoms';
-import {shortenAddress} from '../../../utils/commonUtils'
+import { shortenAddress } from '../../../utils/commonUtils';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const Welcome = () => {
   const classes = styles();
   const theme = useTheme();
-  let { connect, connectedAccount, formData, onChange, sendTransaction } =
-    useContext(TransactionsContext);
+  let {
+    connect,
+    connectedAccount,
+    formData,
+    onChange,
+    sendTransaction,
+    loader,
+  } = useContext(TransactionsContext);
   const matches = useMediaQuery(theme.breakpoints.down('md'));
 
   let buttonArray = [
@@ -100,9 +107,7 @@ const Welcome = () => {
             </Grid>
           </Grid>
           <div style={{ padding: 10 }}>
-            <p>
-              {shortenAddress(connectedAccount)}
-            </p>
+            <p>{shortenAddress(connectedAccount)}</p>
             <p>Ethereum</p>
           </div>
         </div>
@@ -138,12 +143,17 @@ const Welcome = () => {
                 color="primary"
                 buttonName="Send Now"
                 variant="contained"
-                disabled={false}
+                disabled={loader===true}
                 className="btnsmall"
                 style={{ width: !matches ? '100%' : '60%' }}
                 onClick={sendTransaction}
               />
             </Typography>
+            {loader && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 1 }}>
+                <CircularProgress />
+              </Box>
+            )}
           </Grid>
         </Grid>
       </Grid>

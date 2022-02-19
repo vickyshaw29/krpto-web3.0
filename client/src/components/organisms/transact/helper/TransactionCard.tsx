@@ -21,7 +21,7 @@ const TransactionCard = ({
         <Typography>{`From: ${shortenAddress(addressFrom)}`}</Typography>
         <Typography>{`To: ${shortenAddress(addressTo)}`}</Typography>
         <Typography>{`Amount: ${amount}`}</Typography>
-        <img src={url} className={styles.itemContainer} />
+        <img src={gifUrl} className={styles.itemContainer} />
       </Grid>
     </Grid>
   );

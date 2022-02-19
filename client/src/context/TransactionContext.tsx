@@ -8,6 +8,8 @@ interface TransactDetails {
   formData: any;
   onChange: (e: any) => any;
   sendTransaction: () => any;
+  transactions: [];
+  loader: boolean;
 }
 
 export const TransactionsContext = React.createContext<
@@ -23,7 +25,7 @@ const getEhereumContract = () => {
     contractABI,
     signer
   );
-  console.log(provider, signer, transactionContract);
+  return transactionContract;
 };
 
 export const TransactionProvider = ({ children }: any) => {
@@ -32,6 +34,7 @@ export const TransactionProvider = ({ children }: any) => {
   const [transactionCount, setTransactionCount] = useState(
     localStorage.getItem('transactionCount')
   );
+  const [transactions, setTransactions] = useState<any>([]);
   //   form
   const [formData, setFormData] = useState({
     addressTo: '',
@@ -45,6 +48,34 @@ export const TransactionProvider = ({ children }: any) => {
       [e.target.name]: e.target.value,
     }));
   };
+  // getting all the transactions
+
+  const getAllTransactions = async () => {
+    try {
+      if (ethereum) {
+        const transactionContract: any = getEhereumContract();
+        const availableTransactions =
+          await transactionContract.getAllTransactions();
+
+        const customTransactions = availableTransactions.map(
+          (transaction: any) => ({
+            addressTo: transaction.receiver,
+            addressFrom: transaction.sender,
+            timestamp: new Date(
+              transaction.timestamp.toNumber() * 1000
+            ).toLocaleString(),
+            message: transaction.message,
+            keyword: transaction.keyword,
+            amount: parseInt(transaction.amount._hex) / 10 ** 18,
+          })
+        );
+        setTransactions(customTransactions);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   //
   const checkIfWalletConnected = async () => {
     try {
@@ -52,7 +83,7 @@ export const TransactionProvider = ({ children }: any) => {
       const accounts = await ethereum.request({ method: 'eth_accounts' });
       if (accounts.length) {
         setConnectedAccount(accounts[0]);
-        // getAllTransactions
+        getAllTransactions();
       } else {
         console.log('no account found');
       }
@@ -83,8 +114,6 @@ export const TransactionProvider = ({ children }: any) => {
       const { addressTo, amount, keyword, message } = formData;
       const transactionContract: any = getEhereumContract();
       const parsedAmount = ethers.utils.parseEther(amount);
-      console.log(connectedAccount)
-      console.log(formData.addressTo)
       await ethereum.request({
         method: 'eth_sendTransaction',
         params: [
@@ -108,6 +137,28 @@ export const TransactionProvider = ({ children }: any) => {
       console.log(`success ${tranactionHash.hash}`);
       const transactionCount = await transactionContract.getTransactionCount();
       setTransactionCount(transactionCount.toNumber());
+      setFormData({
+        addressTo: '',
+        amount: '',
+        keyword: '',
+        message: '',
+      });
+    } catch (error) {
+      setFormData({
+        addressTo: '',
+        amount: '',
+        keyword: '',
+        message: '',
+      });
+      throw new Error('No ethereum object');
+    }
+  };
+  //
+  const checkIfTransactionExists = async () => {
+    try {
+      const transactionContract: any = getEhereumContract();
+      const transactionCount = await transactionContract.getTransactionCount();
+      window.localStorage.setItem('transactionCount', transactionCount);
     } catch (error) {
       throw new Error('No ethereum object');
     }
@@ -115,8 +166,10 @@ export const TransactionProvider = ({ children }: any) => {
 
   useEffect(() => {
     checkIfWalletConnected();
-  }, []);
-
+  }, [loader]);
+  useEffect(()=>{
+    checkIfTransactionExists();
+  },[])
   return (
     <TransactionsContext.Provider
       value={{
@@ -125,6 +178,8 @@ export const TransactionProvider = ({ children }: any) => {
         formData,
         onChange,
         sendTransaction,
+        transactions,
+        loader,
       }}
     >
       {children}

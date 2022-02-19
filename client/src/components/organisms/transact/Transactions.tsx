@@ -9,7 +9,7 @@ import Styles from './styles';
 
 const Transactions = () => {
   const styles = Styles();
-  let { connectedAccount } = useContext(TransactionsContext);
+  let { connectedAccount,transactions,loader } = useContext(TransactionsContext);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.down('sm'));
   return (
@@ -27,7 +27,7 @@ const Transactions = () => {
         )}
       </Typography>
       <Grid item container style={{ padding: 10 }} spacing={2}>
-        {dummyData.reverse().map((transaction, i) => (
+        {transactions?.reverse().map((transaction, i) => (
           <Grid item xs={!matches?4:12}>
             <TransactionCard key={i} {...transaction} />
           </Grid>

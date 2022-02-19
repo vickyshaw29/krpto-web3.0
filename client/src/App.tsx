@@ -8,7 +8,7 @@ import routes from './routes';
 import { ThemeProvider } from '@mui/styles';
 import ErrorBoundary from './components/atoms/error/ErrorBoundary';
 import theme from './styles/mui/theme';
-import { Header } from './components/molecules';
+import { Header,Footer } from './components/molecules';
 
 function App() {
   return (
@@ -29,6 +29,7 @@ function App() {
           ))}
           {/* </ErrorBoundary> */}
         </Switch>
+        <Footer/>
       </BrowserRouter>
     </ThemeProvider>
   );
