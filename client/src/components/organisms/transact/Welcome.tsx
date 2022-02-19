@@ -9,6 +9,7 @@ import { BsInfoCircle } from 'react-icons/bs';
 import { Input } from '../../atoms';
 import { TransactionsContext } from '../../../context/TransactionContext';
 import { MainButton } from '../../atoms';
+import {shortenAddress} from '../../../utils/commonUtils'
 
 const Welcome = () => {
   const classes = styles();
@@ -100,14 +101,7 @@ const Welcome = () => {
           </Grid>
           <div style={{ padding: 10 }}>
             <p>
-              {connectedAccount.length &&
-                `${connectedAccount
-                  .split('')
-                  .slice(0, 8)
-                  .join('')}.....${connectedAccount
-                  .split('')
-                  .slice(-4)
-                  .join('')}`}
+              {shortenAddress(connectedAccount)}
             </p>
             <p>Ethereum</p>
           </div>
