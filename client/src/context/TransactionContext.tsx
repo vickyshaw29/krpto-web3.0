@@ -167,9 +167,9 @@ export const TransactionProvider = ({ children }: any) => {
   useEffect(() => {
     checkIfWalletConnected();
   }, [loader]);
-  useEffect(()=>{
+  useEffect(() => {
     checkIfTransactionExists();
-  },[])
+  }, []);
   return (
     <TransactionsContext.Provider
       value={{

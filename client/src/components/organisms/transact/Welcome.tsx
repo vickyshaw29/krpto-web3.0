@@ -38,6 +38,7 @@ const Welcome = () => {
       container
       className={classes.mainContainer}
       justifyContent={!matches ? 'space-around' : 'center'}
+      sx={{color:'#fff'}}
     >
       <Grid item xs={matches ? 12 : undefined}>
         <Typography align={matches ? 'center' : undefined}>

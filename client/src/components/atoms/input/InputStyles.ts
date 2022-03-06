@@ -10,7 +10,7 @@ export default makeStyles((theme) => ({
     height: '40px',
     marginTop: 5,
     outline:'none',
-
+    color:'#fff',
     '&::before': {
       borderBottom: 'unset',
     },
