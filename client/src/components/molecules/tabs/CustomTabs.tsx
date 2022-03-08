@@ -4,13 +4,14 @@ import { CustomTab } from '../../atoms';
 import TabStyles from '../../atoms/tab/TabStyles';
 
 const CustomTabs = ({ value, onChange, arr }: any) => {
-  const styles=TabStyles()
+  const styles = TabStyles();
   return (
     <Box sx={{ width: '100%' }}>
       <Tabs
         value={value}
         onChange={onChange}
         aria-label="nav tabs example"
+        // @ts-ignore:next-line
         indicatorColor="none"
         className={styles.tabContainer}
       >
