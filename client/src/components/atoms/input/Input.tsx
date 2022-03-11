@@ -1,5 +1,6 @@
 import React from 'react';
 import inputStyles from './InputStyles';
+import { InputProps } from '../../../interfaces';
 
 const Input = ({
   name,
@@ -8,8 +9,8 @@ const Input = ({
   onChange,
   disabled,
   inlineStyle,
-  ...otherProps
-}: any) => {
+  ...rest
+}: InputProps) => {
   const styles = inputStyles();
   return (
     <div>
@@ -19,7 +20,7 @@ const Input = ({
         value={value}
         onChange={onChange}
         autoComplete="off"
-        {...otherProps}
+        {...rest}
         className={styles.input}
         // style={inlineStyle}
         disabled={disabled}

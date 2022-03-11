@@ -11,3 +11,13 @@ export interface LinkTabProps {
     label?: string;
     href?: string;
   }
+
+export interface InputProps{
+    name:string;
+    label:string;
+    value:string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => any;
+    disabled:boolean;
+    inlineStyle?:any;
+    
+}
